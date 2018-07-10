@@ -176,5 +176,5 @@ modules:
       - type: file
         path: io.github.OpenToonz.appdata.xml
       - type: archive
-        url: https://github.com/opentoonz/opentoonz/archive/v1.2.1rc2.tar.gz
-        sha256: 46dbae4421e96ffda189ea7e4ef4e083fa7d8065a948d428112247cd16667bca
+        url: https://github.com/opentoonz/opentoonz/archive/v1.2.1.tar.gz
+        sha256: 3f91328502c0ad4fa6a9905f6f5a5490c8d589f07bd3d8be1410849573a26b22
