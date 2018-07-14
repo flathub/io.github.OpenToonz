@@ -150,6 +150,35 @@ modules:
         url: https://sourceforge.net/projects/boost/files/boost/1.61.0/boost_1_61_0.tar.bz2
         sha256: a547bd06c2fd9a71ba1d169d9cf0339da7ebf4753849a8f7d6fdb8feee99b640
 
+  - name: x264
+    config-opts:
+      - --disable-cli
+      - --enable-shared
+    sources:
+      - type: archive
+        url: https://download.videolan.org/x264/snapshots/x264-snapshot-20171223-2245-stable.tar.bz2
+        sha256: ee4ba2c3d1caf786ad66d3fa86bdc368a8f827318788a62a9c8444b2c35816bf
+
+  - name: ffmpeg
+    config-opts:
+      - --enable-gpl
+      - --disable-static
+      - --enable-shared
+      - --disable-doc
+      - --disable-ffplay
+      - --disable-ffprobe
+      - --enable-libopus
+      - --enable-libvpx
+      - --enable-libx264
+    post-install:
+      - chrpath -d /app/bin/ffmpeg
+    cleanup:
+      - /share/ffmpeg/examples
+    sources:
+      - type: archive
+        url: https://ffmpeg.org/releases/ffmpeg-4.0.1.tar.xz
+        sha256: 605f5c01c60db35d3b617a79cabb2c7032412be243554602eeed1b628125c0ee
+
   - name: opentoonz
     buildsystem: simple
     build-commands:
