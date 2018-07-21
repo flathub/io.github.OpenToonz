@@ -1,7 +1,7 @@
 app-id: io.github.OpenToonz
 branch: stable
 runtime: org.kde.Platform
-runtime-version: 5.10
+runtime-version: 5.9 # https://github.com/opentoonz/opentoonz/issues/2107
 sdk: org.kde.Sdk
 sdk-extensions:
   - org.freedesktop.Sdk.Extension.gfortran-62
@@ -137,8 +137,8 @@ modules:
       - /share/ffmpeg/examples
     sources:
       - type: archive
-        url: https://ffmpeg.org/releases/ffmpeg-4.0.1.tar.xz
-        sha256: 605f5c01c60db35d3b617a79cabb2c7032412be243554602eeed1b628125c0ee
+        url: https://ffmpeg.org/releases/ffmpeg-4.0.2.tar.xz
+        sha256: a95c0cc9eb990e94031d2183f2e6e444cc61c99f6f182d1575c433d62afb2f97
 
   - name: opentoonz
     buildsystem: simple
