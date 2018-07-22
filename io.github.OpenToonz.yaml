@@ -1,7 +1,7 @@
 app-id: io.github.OpenToonz
 branch: stable
 runtime: org.kde.Platform
-runtime-version: 5.9 # https://github.com/opentoonz/opentoonz/issues/2107
+runtime-version: '5.9' # https://github.com/opentoonz/opentoonz/issues/2107
 sdk: org.kde.Sdk
 sdk-extensions:
   - org.freedesktop.Sdk.Extension.gfortran-62
