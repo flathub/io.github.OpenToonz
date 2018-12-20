@@ -1,7 +1,7 @@
 app-id: io.github.OpenToonz
 branch: stable
 runtime: org.kde.Platform
-runtime-version: '5.11' # https://github.com/opentoonz/opentoonz/issues/2107
+runtime-version: '5.11'
 sdk: org.kde.Sdk
 sdk-extensions:
   - org.freedesktop.Sdk.Extension.gfortran-62
@@ -24,7 +24,6 @@ cleanup:
   - '*.a'
   - '*.la'
 modules:     
-  - shared-modules/udev/udev-175.json
   - shared-modules/glew/glew.json
   - shared-modules/glu/glu-9.0.0.json
 
@@ -36,16 +35,17 @@ modules:
   - name: libusb
     config-opts:
       - --disable-static
+      - --disable-udev
     sources:
       - type: archive
-        url: https://sourceforge.net/projects/libusb/files/libusb-1.0/libusb-1.0.21/libusb-1.0.21.tar.gz
-        sha256: 1a5b08c05bc5e38c81c2d59c29954d5916646f4ff46f51381b3f624384e4ac01
+        url: https://github.com/libusb/libusb/releases/download/v1.0.22/libusb-1.0.22.tar.bz2
+        sha256: 75aeb9d59a4fdb800d329a545c2e6799f732362193b465ea198f2aa275518157
 
   - name: freeglut
     buildsystem: cmake-ninja
     sources:
       - type: archive
-        url: https://sourceforge.net/projects/freeglut/files/freeglut/3.0.0/freeglut-3.0.0.tar.gz
+        url: https://downloads.sourceforge.net/project/freeglut/freeglut/3.0.0/freeglut-3.0.0.tar.gz
         sha256: 2a43be8515b01ea82bcfa17d29ae0d40bd128342f0930cd1f375f1ff999f76a2
 
   - name: superlu
@@ -108,7 +108,7 @@ modules:
       - /boost
     sources:
       - type: archive
-        url: https://sourceforge.net/projects/boost/files/boost/1.61.0/boost_1_61_0.tar.bz2
+        url: https://downloads.sourceforge.net/project/boost/boost/1.61.0/boost_1_61_0.tar.bz2
         sha256: a547bd06c2fd9a71ba1d169d9cf0339da7ebf4753849a8f7d6fdb8feee99b640
 
   - name: x264
@@ -131,14 +131,12 @@ modules:
       - --enable-libopus
       - --enable-libvpx
       - --enable-libx264
-    post-install:
-      - chrpath -d /app/bin/ffmpeg
     cleanup:
       - /share/ffmpeg/examples
     sources:
       - type: archive
-        url: https://ffmpeg.org/releases/ffmpeg-4.0.2.tar.xz
-        sha256: a95c0cc9eb990e94031d2183f2e6e444cc61c99f6f182d1575c433d62afb2f97
+        url: https://ffmpeg.org/releases/ffmpeg-4.0.3.tar.xz
+        sha256: 253c37e3f1d3626a2566e496554de9a4c29050753660835909a466d66b12e2ed
 
   - name: opentoonz
     buildsystem: simple
