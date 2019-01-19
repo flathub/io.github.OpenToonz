@@ -1,12 +1,8 @@
 app-id: io.github.OpenToonz
 branch: stable
 runtime: org.kde.Platform
-runtime-version: '5.11'
+runtime-version: '5.12'
 sdk: org.kde.Sdk
-sdk-extensions:
-  - org.freedesktop.Sdk.Extension.gfortran-62
-build-options:
-  append-path: /usr/lib/sdk/gfortran-62/bin
 command: opentoonz
 finish-args:
   - --socket=wayland
@@ -28,11 +24,6 @@ modules:
   - shared-modules/glew/glew.json
   - shared-modules/glu/glu-9.0.0.json
 
-  - name: gfortran
-    buildsystem: simple
-    build-commands: 
-      - /usr/lib/sdk/gfortran-62/install.sh
-
   - name: libusb
     config-opts:
       - --disable-static
@@ -44,6 +35,8 @@ modules:
 
   - name: freeglut
     buildsystem: cmake-ninja
+    config-opts:
+      - -DCMAKE_BUILD_TYPE=RelWithDebInfo
     sources:
       - type: archive
         url: https://downloads.sourceforge.net/project/freeglut/freeglut/3.0.0/freeglut-3.0.0.tar.gz
@@ -52,7 +45,7 @@ modules:
   - name: superlu
     buildsystem: cmake
     config-opts:
-      - -DCMAKE_Fortran_COMPILER=/usr/lib/sdk/gfortran-62/bin/gfortran
+      - -DCMAKE_BUILD_TYPE=RelWithDebInfo
       - -DCMAKE_POSITION_INDEPENDENT_CODE=True
     sources:
       - type: archive
@@ -69,18 +62,20 @@ modules:
       - PREFIX=/app
     sources:
       - type: archive
-        url: https://github.com/xianyi/OpenBLAS/archive/v0.3.0.tar.gz
-        sha256: cf51543709abe364d8ecfb5c09a2b533d2b725ea1a66f203509b21a8e9d8f1a1
+        url: https://github.com/xianyi/OpenBLAS/archive/v0.3.5.tar.gz
+        sha256: 0950c14bd77c90a6427e26210d6dab422271bc86f9fc69126725833ecdaa0e85
 
   - name: lz4
     buildsystem: cmake-ninja
     subdir: contrib/cmake_unofficial
+    config-opts:
+      - -DCMAKE_BUILD_TYPE=RelWithDebInfo
     cleanup:
       - /bin
     sources:
       - type: archive
-        url: https://github.com/lz4/lz4/archive/v1.8.2.tar.gz
-        sha256: 0963fbe9ee90acd1d15e9f09e826eaaf8ea0312e854803caf2db0a6dd40f4464
+        url: https://github.com/lz4/lz4/archive/v1.8.3.tar.gz
+        sha256: 33af5936ac06536805f9745e0b6d61da606a1f8b4cc5c04dd3cbaca3b9b4fc43
 
   - name: lzo
     cleanup:
@@ -90,6 +85,12 @@ modules:
       - type: archive
         url: https://www.oberhumer.com/opensource/lzo/download/lzo-2.10.tar.gz
         sha256: c0f892943208266f9b6543b3ae308fab6284c5c90e627931446fb49b4221a072
+
+  - name: json-c
+    sources:
+      - type: archive
+        url: https://github.com/json-c/json-c/archive/json-c-0.13.1-20180305.tar.gz
+        sha256: 5d867baeb7f540abe8f3265ac18ed7a24f91fe3c5f4fd99ac3caba0708511b90
 
   - name: libmypaint
     config-opts:
@@ -112,14 +113,14 @@ modules:
         url: https://downloads.sourceforge.net/project/boost/boost/1.61.0/boost_1_61_0.tar.bz2
         sha256: a547bd06c2fd9a71ba1d169d9cf0339da7ebf4753849a8f7d6fdb8feee99b640
 
-  - name: x264
+  - name: 'x264'
     config-opts:
       - --disable-cli
       - --enable-shared
     sources:
       - type: archive
-        url: https://download.videolan.org/x264/snapshots/x264-snapshot-20171223-2245-stable.tar.bz2
-        sha256: ee4ba2c3d1caf786ad66d3fa86bdc368a8f827318788a62a9c8444b2c35816bf
+        url: https://download.videolan.org/x264/snapshots/x264-snapshot-20180807-2245-stable.tar.bz2
+        sha256: 1439f1a054c87965089b646e77d16e1a8bf2f9687e4dd696ac518e44c7644c2a
 
   - name: ffmpeg
     config-opts:
