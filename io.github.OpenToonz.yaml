@@ -35,6 +35,7 @@ modules:
 
   - name: freeglut
     buildsystem: cmake-ninja
+    builddir: true
     config-opts:
       - -DCMAKE_BUILD_TYPE=RelWithDebInfo
     sources:
@@ -43,7 +44,8 @@ modules:
         sha256: 2a43be8515b01ea82bcfa17d29ae0d40bd128342f0930cd1f375f1ff999f76a2
 
   - name: superlu
-    buildsystem: cmake
+    buildsystem: cmake # ninja broken
+    builddir: true
     config-opts:
       - -DCMAKE_BUILD_TYPE=RelWithDebInfo
       - -DCMAKE_POSITION_INDEPENDENT_CODE=True
@@ -67,6 +69,7 @@ modules:
 
   - name: lz4
     buildsystem: cmake-ninja
+    builddir: true
     subdir: contrib/cmake_unofficial
     config-opts:
       - -DCMAKE_BUILD_TYPE=RelWithDebInfo
@@ -141,31 +144,21 @@ modules:
         sha256: 253c37e3f1d3626a2566e496554de9a4c29050753660835909a466d66b12e2ed
 
   - name: opentoonz
-    buildsystem: simple
-    build-commands:
-      - cd thirdparty/tiff-4.0.3 &&
-        cp -p /usr/share/automake-*/config.{sub,guess} config &&
-        ./configure --with-pic --disable-jbig &&
-        make -j $FLATPAK_BUILDER_N_JOBS
-      - mkdir _build
-      - cd _build &&
-        cmake -GNinja
-        -DCMAKE_INSTALL_PREFIX=/app
-        -DBOOST_ROOT=/app/boost
-        -DCMAKE_BUILD_TYPE=RelWithDebInfo ../toonz/sources &&
-        ninja &&
-        ninja install
-      - install -Dm644 -t /app/share/applications io.github.OpenToonz.desktop
-      - install -Dm644 -t /app/share/metainfo io.github.OpenToonz.appdata.xml
-      - install -Dm644 -t /app/share/icons/hicolor/256x256/apps io.github.OpenToonz.png
+    buildsystem: cmake-ninja
+    builddir: true
+    subdir: toonz/sources
+    config-opts:
+      - -DCMAKE_BUILD_TYPE=RelWithDebInfo
+      - -DBOOST_ROOT=/app/boost
+    post-install:
       - sed -i '/LD_LIBRARY_PATH/d' /app/bin/opentoonz
     sources:
-      - type: file
-        path: io.github.OpenToonz.png
-      - type: file
-        path: io.github.OpenToonz.desktop
-      - type: file
-        path: io.github.OpenToonz.appdata.xml
       - type: archive
-        url: https://github.com/opentoonz/opentoonz/archive/v1.2.1.tar.gz
-        sha256: 3f91328502c0ad4fa6a9905f6f5a5490c8d589f07bd3d8be1410849573a26b22
+        url: https://github.com/opentoonz/opentoonz/archive/v1.3.0.tar.gz
+        sha256: a5dd0286a58017a086a3533016b9b4f54ada25a230c62de63b995bc04d0cd5a8
+      - type: shell
+        commands:
+          - cd thirdparty/tiff-4.0.3 &&
+            cp -p /usr/share/automake-*/config.{sub,guess} config &&
+            ./configure --with-pic --disable-jbig &&
+            make -j $FLATPAK_BUILDER_N_JOBS
