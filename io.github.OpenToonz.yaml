@@ -145,7 +145,7 @@ modules:
         sha256: 253c37e3f1d3626a2566e496554de9a4c29050753660835909a466d66b12e2ed
 
   - name: opentoonz
-    buildsystem: cmake-ninja
+    buildsystem: cmake
     builddir: true
     subdir: toonz/sources
     config-opts:
