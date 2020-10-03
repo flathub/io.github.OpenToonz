@@ -154,6 +154,8 @@ modules:
       - type: archive
         url: https://github.com/opentoonz/opentoonz/archive/v1.4.0.tar.gz
         sha256: 176caca191bf2747964ecaf8cbb6be6a738fd04b464a2ba182b5aaf96ccaefa9
+      - type: patch
+        path: opentoonz-twain.patch
       - type: shell
         commands:
           - cd thirdparty/tiff-4.0.3 &&
