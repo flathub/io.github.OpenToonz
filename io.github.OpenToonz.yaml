@@ -40,6 +40,9 @@ modules:
     builddir: true
     config-opts:
       - -DCMAKE_BUILD_TYPE=RelWithDebInfo
+    build-options: # https://wiki.gentoo.org/wiki/Gcc_10_porting_notes/fno_common
+      cflags: -fcommon
+      cxxflags: -fcommon
     sources:
       - type: archive
         url: https://downloads.sourceforge.net/project/freeglut/freeglut/3.2.1/freeglut-3.2.1.tar.gz
