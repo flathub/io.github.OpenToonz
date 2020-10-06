@@ -1,7 +1,7 @@
 app-id: io.github.OpenToonz
 default-branch: stable
 runtime: org.kde.Platform
-runtime-version: '5.14'
+runtime-version: '5.15'
 sdk: org.kde.Sdk
 command: opentoonz
 finish-args:
@@ -40,6 +40,9 @@ modules:
     builddir: true
     config-opts:
       - -DCMAKE_BUILD_TYPE=RelWithDebInfo
+    build-options: # https://wiki.gentoo.org/wiki/Gcc_10_porting_notes/fno_common
+      cflags: -fcommon
+      cxxflags: -fcommon
     sources:
       - type: archive
         url: https://downloads.sourceforge.net/project/freeglut/freeglut/3.2.1/freeglut-3.2.1.tar.gz
@@ -151,6 +154,8 @@ modules:
       - type: archive
         url: https://github.com/opentoonz/opentoonz/archive/v1.4.0.tar.gz
         sha256: 176caca191bf2747964ecaf8cbb6be6a738fd04b464a2ba182b5aaf96ccaefa9
+      - type: patch
+        path: opentoonz-twain.patch
       - type: shell
         commands:
           - cd thirdparty/tiff-4.0.3 &&
