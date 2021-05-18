@@ -5,7 +5,6 @@ runtime-version: '5.15'
 sdk: org.kde.Sdk
 command: opentoonz
 finish-args:
-  - --socket=wayland
   - --share=ipc
   - --socket=x11
   - --device=dri
@@ -21,19 +20,11 @@ cleanup:
   - /share/pkgconfig
   - '*.a'
   - '*.la'
-modules:     
+modules:
   - shared-modules/glew/glew.json
   - shared-modules/glu/glu-9.json
   - shared-modules/intltool/intltool-0.51.json
-
-  - name: libusb
-    config-opts:
-      - --disable-static
-      - --disable-udev
-    sources:
-      - type: archive
-        url: https://github.com/libusb/libusb/releases/download/v1.0.23/libusb-1.0.23.tar.bz2
-        sha256: db11c06e958a82dac52cf3c65cb4dd2c3f339c8a988665110e0d24d19312ad8d
+  - shared-modules/libusb/libusb.json
 
   - name: freeglut
     buildsystem: cmake-ninja
@@ -111,7 +102,7 @@ modules:
       - mv -t /app/include/boost *
     sources:
       - type: archive
-        url: https://dl.bintray.com/boostorg/release/1.72.0/source/boost_1_72_0.tar.bz2
+        url: https://boostorg.jfrog.io/artifactory/main/release/1.72.0/source/boost_1_72_0.tar.bz2
         sha256: 59c9b274bc451cf91a9ba1dd2c7fdcaf5d60b1b3aa83f2c9fa143417cc660722
 
   - name: 'x264'
@@ -141,6 +132,36 @@ modules:
         url: https://www.ffmpeg.org/releases/ffmpeg-4.2.2.tar.xz
         sha256: cb754255ab0ee2ea5f66f8850e1bd6ad5cac1cd855d0a2f4990fb8c668b0d29c
 
+  - name: opencv
+    buildsystem: cmake-ninja
+    builddir: true
+    config-opts:
+      - -DCMAKE_BUILD_TYPE=Debug
+      - -DOPENCV_GENERATE_PKGCONFIG=ON
+      - -DWITH_OPENCL=ON
+      - -DWITH_OPENGL=ON
+      - -DWITH_TBB=ON
+      - -DWITH_VULKAN=ON
+      - -DBUILD_WITH_DEBUG_INFO=OFF
+      - -DBUILD_TESTS=OFF
+      - -DBUILD_PERF_TESTS=OFF
+      - -DBUILD_EXAMPLES=OFF
+      - -DINSTALL_C_EXAMPLES=OFF
+      - -DINSTALL_PYTHON_EXAMPLES=OFF
+      - -DWITH_1394=OFF
+      - -DWITH_PROTOBUF=ON
+      - -DBUILD_LIST=calib3d,core,dnn,features2d,flann,highgui,imgcodecs,imgproc,java_bindings_generator,ml,objdetect,photo,python_bindings_generator,python_tests,stitching,video,videoio
+    cleanup:
+      - /bin
+    sources:
+      - type: archive
+        url: https://github.com/opencv/opencv/archive/4.2.0.tar.gz
+        sha256: 9ccb2192d7e8c03c58fee07051364d94ed7599363f3b0dce1c5e6cc11c1bb0ec
+      - type: archive
+        url: https://github.com/opencv/opencv_contrib/archive/4.2.0.tar.gz
+        sha256: 8a6b5661611d89baa59a26eb7ccf4abb3e55d73f99bb52d8f7c32265c8a43020
+        # dest: contrib
+
   - name: opentoonz
     buildsystem: cmake
     builddir: true
@@ -152,10 +173,8 @@ modules:
       - sed -i '/LD_LIBRARY_PATH/d' /app/bin/opentoonz
     sources:
       - type: archive
-        url: https://github.com/opentoonz/opentoonz/archive/v1.4.0.tar.gz
-        sha256: 176caca191bf2747964ecaf8cbb6be6a738fd04b464a2ba182b5aaf96ccaefa9
-      - type: patch
-        path: opentoonz-twain.patch
+        url: https://github.com/opentoonz/opentoonz/archive/refs/tags/v1.5.0.tar.gz
+        sha256: fba0f381fb71ffda89e6423b4d461450d4851f93830342e69e36313070af5990
       - type: shell
         commands:
           - cd thirdparty/tiff-4.0.3 &&
