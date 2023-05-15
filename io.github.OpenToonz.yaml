@@ -173,8 +173,8 @@ modules:
       - sed -i '/LD_LIBRARY_PATH/d' /app/bin/opentoonz
     sources:
       - type: archive
-        url: https://github.com/opentoonz/opentoonz/archive/refs/tags/v1.6.0.tar.gz
-        sha256: 9a6c28cb3933756dbebb45e849bdafc9e6d93d0328c4fd4d7bc8ec3ae481f684
+        url: https://github.com/opentoonz/opentoonz/archive/refs/tags/v1.7.1.tar.gz
+        sha256: d0daf60d06510efe15d0db3f9eed0162499ed58061504dca27892c2b9ea5f22d
       - type: shell
         commands:
           - cd thirdparty/tiff-4.0.3 &&
