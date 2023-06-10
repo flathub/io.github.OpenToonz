@@ -1,7 +1,6 @@
 app-id: io.github.OpenToonz
-default-branch: stable
 runtime: org.kde.Platform
-runtime-version: '5.15-21.08'
+runtime-version: '5.15-22.08'
 sdk: org.kde.Sdk
 command: opentoonz
 finish-args:
@@ -168,6 +167,8 @@ modules:
     subdir: toonz/sources
     config-opts:
       - -DCMAKE_BUILD_TYPE=RelWithDebInfo
+      # https://github.com/opentoonz/opentoonz/issues/4831
+      - -DWITH_TRANSLATION=OFF
       - -DBOOST_ROOT=/app/include/boost
     post-install:
       - sed -i '/LD_LIBRARY_PATH/d' /app/bin/opentoonz
