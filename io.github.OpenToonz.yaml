@@ -178,7 +178,8 @@ modules:
         sha256: d0daf60d06510efe15d0db3f9eed0162499ed58061504dca27892c2b9ea5f22d
       - type: shell
         commands:
-          - cd thirdparty/tiff-4.0.3 &&
+          - sed -i 's|"ffmpegPath", QMetaType::QString, ""|"ffmpegPath", QMetaType::QString, "/app/bin"|' toonz/sources/toonzlib/preferences.cpp &&
+            cd thirdparty/tiff-4.0.3 &&
             cp -p /usr/share/automake-*/config.{sub,guess} config &&
             ./configure --with-pic --disable-jbig &&
             make -j $FLATPAK_BUILDER_N_JOBS
