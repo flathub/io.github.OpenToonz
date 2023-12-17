@@ -1,6 +1,6 @@
 app-id: io.github.OpenToonz
 runtime: org.kde.Platform
-runtime-version: '5.15-22.08'
+runtime-version: '5.15-23.08'
 sdk: org.kde.Sdk
 command: opentoonz
 finish-args:
@@ -50,7 +50,7 @@ modules:
         sha256: 77582501dedef295eb74e4dc9433e2816d2d8be211eae307379c13d93c65bc71
 
   - name: OpenBLAS
-    buildsystem: cmake # fortran needs ninja 1.10
+    buildsystem: cmake-ninja
     builddir: true
     sources:
       - type: archive
@@ -130,12 +130,14 @@ modules:
       - type: archive
         url: https://www.ffmpeg.org/releases/ffmpeg-4.2.2.tar.xz
         sha256: cb754255ab0ee2ea5f66f8850e1bd6ad5cac1cd855d0a2f4990fb8c668b0d29c
+      - type: patch
+        path: patches/ffmpeg-as-fix.patch
 
   - name: opencv
     buildsystem: cmake-ninja
     builddir: true
     config-opts:
-      - -DCMAKE_BUILD_TYPE=Debug
+      - -DCMAKE_BUILD_TYPE=RelWithDebInfo
       - -DOPENCV_GENERATE_PKGCONFIG=ON
       - -DWITH_OPENCL=ON
       - -DWITH_OPENGL=ON
@@ -170,8 +172,6 @@ modules:
       # https://github.com/opentoonz/opentoonz/issues/4831
       - -DWITH_TRANSLATION=OFF
       - -DBOOST_ROOT=/app/include/boost
-    post-install:
-      - sed -i '/LD_LIBRARY_PATH/d' /app/bin/opentoonz
     sources:
       - type: archive
         url: https://github.com/opentoonz/opentoonz/archive/refs/tags/v1.7.1.tar.gz
