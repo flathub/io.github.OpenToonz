@@ -120,7 +120,6 @@ modules:
       - --enable-shared
       - --disable-doc
       - --disable-ffplay
-      - --disable-ffprobe
       - --enable-libopus
       - --enable-libvpx
       - --enable-libx264
@@ -176,6 +175,8 @@ modules:
       - type: archive
         url: https://github.com/opentoonz/opentoonz/archive/refs/tags/v1.7.1.tar.gz
         sha256: d0daf60d06510efe15d0db3f9eed0162499ed58061504dca27892c2b9ea5f22d
+      - type: patch
+        path: patches/opentoonz-ffmepg.patch
       - type: shell
         commands:
           - cd thirdparty/tiff-4.0.3 &&
