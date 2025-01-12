@@ -1,6 +1,6 @@
 app-id: io.github.OpenToonz
 runtime: org.kde.Platform
-runtime-version: '5.15-23.08'
+runtime-version: '5.15-24.08'
 sdk: org.kde.Sdk
 command: opentoonz
 finish-args:
@@ -41,6 +41,8 @@ modules:
   - name: superlu
     buildsystem: cmake # ninja broken
     builddir: true
+    build-options:
+      cflags: -fpermissive
     config-opts:
       - -DCMAKE_BUILD_TYPE=RelWithDebInfo
       - -DCMAKE_POSITION_INDEPENDENT_CODE=True
@@ -54,21 +56,8 @@ modules:
     builddir: true
     sources:
       - type: archive
-        url: https://github.com/xianyi/OpenBLAS/archive/v0.3.9.tar.gz
-        sha256: 17d4677264dfbc4433e97076220adc79b050e4f8a083ea3f853a53af253bc380
-
-  - name: lz4
-    buildsystem: cmake-ninja
-    builddir: true
-    subdir: contrib/cmake_unofficial
-    config-opts:
-      - -DCMAKE_BUILD_TYPE=RelWithDebInfo
-    cleanup:
-      - /bin
-    sources:
-      - type: archive
-        url: https://github.com/lz4/lz4/archive/v1.9.2.tar.gz
-        sha256: 658ba6191fa44c92280d4aa2c271b0f4fbc0e34d249578dd05e50e76d0e5efcc
+        url: https://github.com/xianyi/OpenBLAS/archive/v0.3.29.tar.gz
+        sha256: 38240eee1b29e2bde47ebb5d61160207dc68668a54cac62c076bb5032013b1eb
 
   - name: lzo
     cleanup:
@@ -80,10 +69,11 @@ modules:
         sha256: c0f892943208266f9b6543b3ae308fab6284c5c90e627931446fb49b4221a072
 
   - name: json-c
+    buildsystem: cmake-ninja
     sources:
       - type: archive
-        url: https://github.com/json-c/json-c/archive/json-c-0.13.1-20180305.tar.gz
-        sha256: 5d867baeb7f540abe8f3265ac18ed7a24f91fe3c5f4fd99ac3caba0708511b90
+        url: https://github.com/json-c/json-c/archive/json-c-0.17-20230812.tar.gz
+        sha256: 024d302a3aadcbf9f78735320a6d5aedf8b77876c8ac8bbb95081ca55054c7eb
 
   - name: libmypaint
     config-opts:
