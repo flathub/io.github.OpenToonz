@@ -1,6 +1,6 @@
 app-id: io.github.OpenToonz
 runtime: org.kde.Platform
-runtime-version: '5.15-24.08'
+runtime-version: '5.15-25.08'
 sdk: org.kde.Sdk
 command: opentoonz
 finish-args:
@@ -23,20 +23,22 @@ modules:
   - shared-modules/glew/glew.json
   - shared-modules/glu/glu-9.json
   - shared-modules/intltool/intltool-0.51.json
-  - shared-modules/libusb/libusb.json
 
   - name: freeglut
     buildsystem: cmake-ninja
     builddir: true
     config-opts:
       - -DCMAKE_BUILD_TYPE=RelWithDebInfo
+      - -DCMAKE_POLICY_VERSION_MINIMUM=3.5
     build-options: # https://wiki.gentoo.org/wiki/Gcc_10_porting_notes/fno_common
-      cflags: -fcommon
+      cflags: -fcommon -fpermissive
       cxxflags: -fcommon
     sources:
       - type: archive
-        url: https://downloads.sourceforge.net/project/freeglut/freeglut/3.2.1/freeglut-3.2.1.tar.gz
-        sha256: d4000e02102acaf259998c870e25214739d1f16f67f99cb35e4f46841399da68
+        url: https://downloads.sourceforge.net/project/freeglut/freeglut/3.2.2/freeglut-3.2.2.tar.gz
+        sha256: c5944a082df0bba96b5756dddb1f75d0cd72ce27b5395c6c1dde85c2ff297a50
+      - type: patch
+        path: patches/freeglut-egl-proto.patch
 
   - name: superlu
     buildsystem: cmake # ninja broken
@@ -46,10 +48,15 @@ modules:
     config-opts:
       - -DCMAKE_BUILD_TYPE=RelWithDebInfo
       - -DCMAKE_POSITION_INDEPENDENT_CODE=True
+      - -DCMAKE_POLICY_VERSION_MINIMUM=3.5
     sources:
       - type: archive
         url: https://github.com/xiaoyeli/superlu/archive/v5.2.1.tar.gz
         sha256: 77582501dedef295eb74e4dc9433e2816d2d8be211eae307379c13d93c65bc71
+      - type: patch
+        paths:
+          - patches/superlu-proto.patch
+          - patches/superlu-proto2.patch
 
   - name: OpenBLAS
     buildsystem: cmake-ninja
@@ -70,6 +77,8 @@ modules:
 
   - name: json-c
     buildsystem: cmake-ninja
+    config-opts:
+      - -DCMAKE_POLICY_VERSION_MINIMUM=3.5
     sources:
       - type: archive
         url: https://github.com/json-c/json-c/archive/json-c-0.17-20230812.tar.gz
@@ -91,7 +100,7 @@ modules:
       - mv -t /app/include/boost *
     sources:
       - type: archive
-        url: https://boostorg.jfrog.io/artifactory/main/release/1.72.0/source/boost_1_72_0.tar.bz2
+        url: https://archives.boost.io/release/1.72.0/source/boost_1_72_0.tar.bz2
         sha256: 59c9b274bc451cf91a9ba1dd2c7fdcaf5d60b1b3aa83f2c9fa143417cc660722
 
   - name: 'x264'
@@ -151,12 +160,15 @@ modules:
         url: https://github.com/opencv/opencv_contrib/archive/4.2.0.tar.gz
         sha256: 8a6b5661611d89baa59a26eb7ccf4abb3e55d73f99bb52d8f7c32265c8a43020
         # dest: contrib
+      - type: patch
+        path: patches/opencv-cmake.patch
 
   - name: opentoonz
-    buildsystem: cmake
+    buildsystem: cmake-ninja
     builddir: true
     subdir: toonz/sources
     config-opts:
+      - -DCMAKE_POLICY_VERSION_MINIMUM=3.5
       - -DCMAKE_BUILD_TYPE=RelWithDebInfo
       # https://github.com/opentoonz/opentoonz/issues/4831
       - -DWITH_TRANSLATION=OFF
@@ -166,7 +178,9 @@ modules:
         url: https://github.com/opentoonz/opentoonz/archive/refs/tags/v1.7.1.tar.gz
         sha256: d0daf60d06510efe15d0db3f9eed0162499ed58061504dca27892c2b9ea5f22d
       - type: patch
-        path: patches/opentoonz-ffmepg.patch
+        paths:
+          - patches/opentoonz-ffmepg.patch
+          - patches/opentoonz-prototypes.patch
       - type: shell
         commands:
           - cd thirdparty/tiff-4.0.3 &&
