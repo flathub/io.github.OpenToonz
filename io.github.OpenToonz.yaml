@@ -66,15 +66,6 @@ modules:
         url: https://github.com/xianyi/OpenBLAS/archive/v0.3.29.tar.gz
         sha256: 38240eee1b29e2bde47ebb5d61160207dc68668a54cac62c076bb5032013b1eb
 
-  - name: lzo
-    cleanup:
-      - /bin
-      - /share/doc
-    sources:
-      - type: archive
-        url: https://www.oberhumer.com/opensource/lzo/download/lzo-2.10.tar.gz
-        sha256: c0f892943208266f9b6543b3ae308fab6284c5c90e627931446fb49b4221a072
-
   - name: json-c
     buildsystem: cmake-ninja
     config-opts:
